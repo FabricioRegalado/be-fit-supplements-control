@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import ProductosPage from "./pages/ProductosPage";
+import VentasPage from "./pages/VentasPage";
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/productos" element={<ProductosPage />} />
-            <Route path="/ventas" element={<div>Ventas</div>} />
+            <Route path="/ventas" element={<VentasPage />} />
           </Routes>
         </div>
       </div>

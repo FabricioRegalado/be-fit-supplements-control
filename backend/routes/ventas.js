@@ -8,6 +8,8 @@ router.post('/', async (req, res) => {
   try {
     const { productos } = req.body;
 
+    let totalVenta = 0; // Variable para calcular el total
+
     // Validar productos y calcular subtotales si es necesario
     for (const item of productos) {
       const producto = await Producto.findById(item.productoId);
@@ -17,8 +19,8 @@ router.post('/', async (req, res) => {
 
       // Verificar si hay suficiente stock
       if (producto.stock < item.cantidad) {
-        return res.status(400).json({ 
-          error: `Stock insuficiente para el producto ${producto.nombre}. Disponible: ${producto.stock}` 
+        return res.status(400).json({
+          error: `Stock insuficiente para el producto ${producto.nombre}. Disponible: ${producto.stock}`,
         });
       }
 
@@ -27,13 +29,20 @@ router.post('/', async (req, res) => {
         item.subtotal = producto.precio * item.cantidad;
       }
 
+      // Acumular el subtotal en el total de la venta
+      totalVenta += item.subtotal;
+
       // Reducir el stock del producto
       producto.stock -= item.cantidad;
       await producto.save();
     }
 
-    // Crear y guardar la venta
-    const nuevaVenta = new Venta(req.body);
+    // Crear la venta con el total calculado
+    const nuevaVenta = new Venta({
+      productos,
+      total: totalVenta, // Asignar el total calculado
+    });
+
     await nuevaVenta.save();
     res.status(201).json(nuevaVenta);
   } catch (error) {
@@ -41,6 +50,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Ocurrió un error al registrar la venta' });
   }
 });
+
 
 // Obtener todas las ventas con los detalles de productos
 router.get('/', async (req, res) => {

@@ -36,6 +36,8 @@ const ventaSchema = new mongoose.Schema({
 ventaSchema.pre('save', function (next) {
   if (this.productos && this.productos.length > 0) {
     this.total = this.productos.reduce((sum, item) => sum + item.subtotal, 0);
+  } else {
+    this.total = 0;
   }
   next();
 });
