@@ -1,24 +1,24 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Productos from './pages/Productos';
-import Ventas from './pages/Ventas';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./components/Dashboard";
+import ProductosPage from "./pages/ProductosPage";
 
-function App() {
+const App = () => {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100">
-        <header className="bg-blue-500 text-white py-4 px-6">
-          <h1 className="text-lg font-bold">BeFit Supplements</h1>
-        </header>
-        <main className="p-6">
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 p-5">
           <Routes>
-            <Route path="/" element={<Productos />} />
-            <Route path="/ventas" element={<Ventas />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/productos" element={<ProductosPage />} />
+            <Route path="/ventas" element={<div>Ventas</div>} />
           </Routes>
-        </main>
+        </div>
       </div>
     </Router>
   );
-}
+};
 
 export default App;
