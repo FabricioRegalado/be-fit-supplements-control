@@ -9,8 +9,10 @@ const App = () => {
   return (
     <Router>
       <div className="flex">
+        {/* Barra lateral fija */}
         <Sidebar />
-        <div className="flex-1 p-5">
+        {/* Contenido principal desplazable */}
+        <div className="flex-1 h-screen overflow-y-auto p-6 bg-gray-100">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/productos" element={<ProductosPage />} />
